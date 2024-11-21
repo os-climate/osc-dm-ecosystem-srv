@@ -27,6 +27,7 @@ RUN pip3 install -r requirements.txt
 
 # Copy the application files
 COPY ./* /app/
+COPY ./templates/* /app/templates/
 
 # Set the command to run the app
 CMD [ "python3", "/app/server.py"]

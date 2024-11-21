@@ -77,7 +77,8 @@ prepare() {
     echo "Preparing..."
     cp $PROJECT_DIR/requirements.txt $WORKING_DIR
     cp $PROJECT_DIR/docker/Dockerfile $WORKING_DIR
-    cp $PROJECT_DIR/src/*.py $WORKING_DIR
+    cp -r $PROJECT_DIR/src $WORKING_DIR
+    cp -r $PROJECT_DIR/templates $WORKING_DIR
 }
 
 cleanup() {

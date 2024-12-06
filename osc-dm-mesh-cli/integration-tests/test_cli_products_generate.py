@@ -5,7 +5,7 @@ import state
 
 # Common for all CLI commands
 HOST="localhost"
-PORT="20000"
+PORT="24000"
 
 # NAMESPACE="brodagroupsoftware.com" ;
 # NAME="rmi.dataproduct" ;
@@ -27,8 +27,8 @@ def test_generate_product_manual():
     TAGS = "population,buildings"
     NAMESPACE = "test-space"
     NAME = "test-name"
-    DIRECTORY = "./output"
-    FILENAME = "test_product.yaml"
+    DIRECTORY = "output1"
+    FILENAME = "product.yaml"
     DESCRIPTION = "A short description"
     result = main([
         "--host", HOST,
@@ -43,8 +43,6 @@ def test_generate_product_manual():
         "--filename", FILENAME
     ])
     assert(result is not None)
-    result = json.loads(result)
-    assert "product" in result
 
 # NAMESPACE="brodagroupsoftware.com" ;
 # NAME="rmi.dataproduct" ;
@@ -67,10 +65,10 @@ def test_generate_product_manual():
 def test_generate_product_llm():
     TAGS = "population,buildings"
     NAMESPACE = "test-space"
-    NAME = "test-name"
-    DIRECTORY = "./output"
-    FILENAME = "test_product.yaml"
-    URL = "https://data.catalyst.coop/pudl"
+    NAME = "test-name2"
+    DIRECTORY = "./output2"
+    FILENAME = "product.yaml"
+    URL = "https://www.eia.gov/electricity/data/eia860/"
     VENDOR = "OpenAI"
     MODEL = "gpt-3.5-turbo"
     result = main([
@@ -88,8 +86,6 @@ def test_generate_product_llm():
         "--filename", FILENAME
     ])
     assert(result is not None)
-    result = json.loads(result)
-    assert "product" in result
 
 
 # NAME="artifact-001" ;
@@ -108,11 +104,11 @@ def test_generate_product_llm():
 #     --filename "$ARTIFACT_YAML"
 def test_generate_product_artifact_manual():
     TAGS = "population,buildings"
-    NAME = "test-name"
+    NAME = "test-name1"
     URL = "https://data.catalyst.coop/pudl/core_eia__entity_plants"
     DATA_URL = URL + ".csv?_size=max"
     DESCRIPTION = "Some short description"
-    DIRECTORY = "./output"
+    DIRECTORY = "./output2"
     FILENAME = NAME + ".yaml"
     result = main([
         "--host", HOST,
@@ -127,8 +123,6 @@ def test_generate_product_artifact_manual():
         "--filename", FILENAME
     ])
     assert(result is not None)
-    result = json.loads(result)
-    assert "artifact" in result
 
 
 # ARTIFACT_TYPE="service" ;
@@ -153,11 +147,11 @@ def test_generate_product_artifact_manual():
 def test_generate_product_artifact_manual_with_service():
     ARTIFACT_TYPE = "service"
     TAGS = "population,buildings"
-    NAME = "test-name"
+    NAME = "test-name2"
     URL = "https://data.catalyst.coop/pudl/core_eia__entity_plants"
     DATA_URL = URL + ".csv?_size=max"
     DESCRIPTION = "Some short description"
-    DIRECTORY = "./output"
+    DIRECTORY = "./output2"
     FILENAME = NAME + ".yaml"
     SERVICE_HOST = "localhost:2000"
     result = main([
@@ -174,13 +168,7 @@ def test_generate_product_artifact_manual_with_service():
         "--filename", FILENAME,
         "--service_host", SERVICE_HOST,
     ])
-    print(result)
     assert(result is not None)
-    result = json.loads(result)
-    assert "artifact" in result
-
-
-
 
 # NAME="artifact-001" ;
 # TAGS="utilities,emissions" ;
@@ -202,10 +190,10 @@ def test_generate_product_artifact_manual_with_service():
 #     --filename "$ARTIFACT_YAML"
 def test_generate_product_artifact_ai():
     TAGS = "population,buildings"
-    NAME = "test-name"
+    NAME = "test-name3"
     URL = "https://data.catalyst.coop/pudl/core_eia__entity_plants"
     DATA_URL = URL + ".csv?_size=max"
-    DIRECTORY = "./output"
+    DIRECTORY = "./output2"
     FILENAME = NAME + ".yaml"
     VENDOR = "OpenAI"
     MODEL = "gpt-3.5-turbo"
@@ -224,7 +212,4 @@ def test_generate_product_artifact_ai():
         "--filename", FILENAME
     ])
     assert(result is not None)
-    result = json.loads(result)
-    assert "artifact" in result
-
 

@@ -57,18 +57,19 @@ source $ENVIRONMENT_CONFIG
 
 export IMAGE_NAME="osc-dm-product-srv"
 export HOSTNAME="$IMAGE_NAME-$INSTANCE"
+export OPENAI_API_KEY="$OPENAI_API_KEY"
 
 BASE_PORT=24000
 export PUBLIC_PORT=$(( BASE_PORT + INSTANCE ))
 export PRIVATE_PORT=8000
 
 echo "--- Docker Environment ---"
-echo "IMAGE_NAME:   $IMAGE_NAME    <--- This is the docker image name"
-echo "HOSTNAME:     $HOSTNAME      <--- This is the hostname running in docker"
-echo "PUBLIC_PORT:  $PUBLIC_PORT   <--- This is the port to communicate with this data product"
-echo "PRIVATE_PORT: $PRIVATE_PORT  <--- This is the internal port, which is not used"
-echo "CONFIG_NAME:  $CONFIG_NAME   <--- This is data product configuration in the '/app/config' directory"
-echo "DATA_DIR:     $DATA_DIR      <--- This is data product data directory (/app/dataproducts) directory"
+echo "IMAGE_NAME:         $IMAGE_NAME    <--- This is the docker image name"
+echo "HOSTNAME:           $HOSTNAME      <--- This is the hostname running in docker"
+echo "PUBLIC_PORT:        $PUBLIC_PORT   <--- This is the port to communicate with this data product"
+echo "PRIVATE_PORT:       $PRIVATE_PORT  <--- This is the internal port, which is not used"
+echo "CONFIG_NAME:        $CONFIG_NAME   <--- This is data product configuration in the '/app/config' directory"
+echo "DATA_DIR:           $DATA_DIR      <--- This is data product data directory (/app/dataproducts) directory"
 echo " "
 
 NETWORK_NAME="localnet"

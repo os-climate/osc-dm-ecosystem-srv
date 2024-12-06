@@ -49,9 +49,10 @@ class SimpleMetadata(AbstractMetadata):
         self.product_uuid = uuids.product_uuid
         logger.info(f"Using product UUID:{self.product_uuid}")
         self.artifact_uuids = {}
-        for artifact_uuid in uuids.artifact_uuids:
-            for artifact_name, artifact_uuid in artifact_uuid.items():
-                self.artifact_uuids[artifact_name] = artifact_uuid
+        if uuids.artifact_uuids is not None:
+            for artifact_uuid in uuids.artifact_uuids:
+                for artifact_name, artifact_uuid in artifact_uuid.items():
+                    self.artifact_uuids[artifact_name] = artifact_uuid
         logger.info(f"Using artifact UUIDs:{self.artifact_uuids}")
 
 
@@ -116,9 +117,12 @@ class SimpleMetadata(AbstractMetadata):
         # Load the artifacts, and set UUID for each artifact
         # (from the loaded UUIDs)
         artifacts: List[models.Artifact] = self._load_artifacts(product)
+        logger.info(f"artifacts: {artifacts}")
+
         for artifact in artifacts:
-            artifact.uuid = self.artifact_uuids[artifact.name]
-            artifact.productuuid = product.uuid
+            if artifact.uuid is not None:
+                artifact.uuid = self.artifact_uuids[artifact.name]
+                artifact.productuuid = product.uuid
 
         fqproduct = models.FQProduct(
             product = product,

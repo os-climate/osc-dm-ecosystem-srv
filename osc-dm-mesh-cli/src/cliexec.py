@@ -150,22 +150,50 @@ class CliExec():
             name: str, tags: str, description: str,
             url: str, vendor: str, model: str):
 
-        response = product_generator.create_product_file(
-            output_dir, file_name, namespace, name,
-            tags, description, url, vendor, model)
+        headers = self._create_headers()
+        service = DATAPRODUCT_API + f"/products/generate"
+        method = "POST"
+        payload = {
+            "outputDir": output_dir,
+            "fileName": file_name,
+            "namespace":namespace,
+            "name":name,
+            "tags":tags,
+            "description":description,
+            "url": url,
+            "vendor": vendor,
+            "model": model
+        }
+        response = await httputilities.httprequest(
+            self.host, self.port, service, method, headers=headers, obj=payload)
         return response
 
 
     async def product_artifact_generate(
             self, output_dir: str, file_name: str,
             name: str, tags: str, data_url: str, description: str,
-            url: str, vendor: str, model: str, type: str, host=None):
+            url: str, vendor: str, model: str, artifact_type: str, host=None):
 
-        response = product_generator.create_artifact_file(
-            output_dir, file_name, name,
-            tags, data_url, description,
-            url, vendor, model, type, host=host)
+        headers = self._create_headers()
+        service = DATAPRODUCT_API + f"/products/generate/artifact"
+        method = "POST"
+        payload = {
+            "outputDir": output_dir,
+            "fileName": file_name,
+            "name": name,
+            "tags": tags,
+            "dataUrl": data_url,
+            "description": description,
+            "url": url,
+            "vendor": vendor,
+            "model": model,
+            "artifactType": artifact_type,
+            "host": host
+        }
+        response = await httputilities.httprequest(
+            self.host, self.port, service, method, headers=headers, obj=payload)
         return response
+
 
 
     async def product_assign(self, directory: str):

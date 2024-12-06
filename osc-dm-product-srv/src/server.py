@@ -226,6 +226,59 @@ async def dataproducts_uuid_metrics_get(uuid: str):
     return response
 
 
+
+@app.post(ENDPOINT_PREFIX + "/products/generate")
+async def dataproducts_generate_product_post(product: models.ProductGen):
+
+    """
+    Generates a new product file, and associated uuid
+    """
+    logger.info(f"called generate endpoint with: {product}")
+    output_dir = "./dataproducts/" + product.outputDir
+    from utl.product_generator import create_product_file
+    out = create_product_file(
+        output_dir,
+        product.fileName,
+        product.namespace,
+        product.name,
+        product.tags,
+        product.description,
+        product.url,
+        product.vendor,
+        product.model)
+    from utl.uuid_generator import generate_product_uuid
+    out = generate_product_uuid(product.outputDir)
+    return out
+
+
+@app.post(ENDPOINT_PREFIX + "/products/generate/artifact")
+async def dataproducts_generate_product_artifact_post(artifact: models.ArtifactGen):
+
+    """
+    Generates a new artifact file and associated uuid
+    """
+    logger.info(f"called generate endpoint with: {artifact}")
+    output_dir = "./dataproducts/" + artifact.outputDir
+    from utl.product_generator import create_artifact_file
+    out = create_artifact_file(
+        output_dir,
+        artifact.fileName,
+        artifact.name,
+        artifact.tags,
+        artifact.dataUrl,
+        artifact.description,
+        artifact.url,
+        artifact.vendor,
+        artifact.model,
+        artifact.artifactType,
+        artifact.host
+    )
+    from utl.uuid_generator import generate_artifact_uuid
+    out = generate_artifact_uuid(artifact.outputDir, artifact.name)
+    return {
+        "product_uuid": out
+    }
+
 #####
 # MONITOR
 #####
@@ -293,7 +346,7 @@ def _load_metadata():
                 f"retry in (seconds):{METADATA_RETRY_SECONDS}, "
                 f"exception:{e}"
             )
-            logger.error(msg)
+            logger.error(msg, exc_info=True)
             time.sleep(METADATA_RETRY_SECONDS)
 
 

@@ -45,6 +45,29 @@ class Artifact(BaseModel):
     updatetimestamp: Optional[str] = None
     service: Optional[str] = None
 
+class ProductGen(BaseModel):
+    outputDir: Field(description="Directory where the output will be created")
+    fileName: Field(description="Name of the file being created")
+    namespace: Field(description="Namespace of the product being created")
+    name: Field(description="Name of the product being created")
+    tags: Optional[str] = Field(None, description="Tags being used for the created product, used in searches")
+    description: Optional[str] = Field(None, description="Description of the artifact being created")
+    url: Optional[str] = Field(None, description="Link to the data being scraped to generate and ID description")
+    vendor: Optional[str] = Field(None, description="Vendor being used for AI generation")
+    model: Optional[str] = Field(None, description="Model of AI being used for generation")
+
+class ArtifactGen(BaseModel):
+    outputDir: Field(description="Directory where the output artifact will be created")
+    fileName: Field(description="Name of the file being created")
+    name: Field(description="Name of the artifact being created")
+    tags: Optional[str] = Field(None, description="Tags being used for the created artifact, used in searches")
+    dataUrl: Optional[str] = Field(None, description="Link to the raw data being used in the artifact")
+    description: Optional[str] = Field(None, description="Description of the artifact being created")
+    url: Optional[str] = Field(None, description="Link to the data being scraped to generate and ID description")
+    vendor: Optional[str] = Field(None, description="Vendor being used for AI generation")
+    model: Optional[str] = Field(None, description="Model of AI being used for generation")
+    artifactType: Optional[str] = Field(None, description="Type of artifact: 'service', 'data'")
+    host: Optional[str] = Field(None, description="URL of the host/api that is being used in the artifact if it is a service")
 
 class Cart(BaseModel):
     uuid: Optional[str] = None
@@ -146,4 +169,4 @@ class Event(BaseModel):
 # containing uuids for product, and each artifact
 class UUIDs(BaseModel):
     product_uuid: str
-    artifact_uuids: List[Dict[str, str]]
+    artifact_uuids: Optional[List[Dict[str, str]]] = None
